@@ -30,16 +30,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String username;
+  String? username;
+  bool isLoggingIn = false;
 
-  void _loginUser() {
-    //TODO
-    setState(() {});
+  Future<String?> _loginUser() async {
+    setState(() {
+      isLoggingIn = true;
+    });
+
+    username = await getUserInfo();
+    setState(() {
+      isLoggingIn = false;
+    });
   }
 
   String greetText() {
-    //TODO
-    return '';
+    if (isLoggingIn) {
+      return 'Logging in...';
+    } else if (username == null) {
+      return 'Login fails';
+    } else {
+      return 'hello $username';
+    }
   }
 
   @override
